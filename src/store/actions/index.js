@@ -22,3 +22,32 @@ export const fetchMedications = (queryString) => async (dispatch) => {
          });
     }
 };
+
+
+export const addToTreatment = (data, qty = 1, toast) => 
+    (dispatch, getState) => {
+        // Find the medication
+        const { medications } = getState().medications;
+        const getMedication = medications.find(
+            (item) => item.medicationId === data.medicationId
+        );
+
+        // Check for stocks
+        const isQuantityExist = getMedication.quantity >= qty;
+
+        // If in stock -> add
+        if (isQuantityExist) {
+            dispatch({ type: "ADD_TREATMENT", payload: {...data, quantity: qty}});
+            toast.success(`${data?.medicationName} added to the treatment`);
+            localStorage.setItem("treatmentMedications", JSON.stringify(getState().treatments.treatment));
+        } else {
+            // error
+            toast.error("Out of stock");
+        }
+};
+
+export const removeFromTreatment =  (data, toast) => (dispatch, getState) => {
+    dispatch({type: "REMOVE_TREATMENT", payload: data });
+    toast.success(`${data.medicationName} removed from treatment`);
+    localStorage.setItem("treatmentMedications", JSON.stringify(getState().treatments.treatment));
+}
