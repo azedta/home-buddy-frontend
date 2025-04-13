@@ -43,11 +43,11 @@ export const treatmentReducer = (state = initialState, action) => {
             return {
                 ...state,
                 treatment: action.payload,
-                totalPrice: action.totalPrice,
+                totalMedications: action.totalMedications,
                 treatmentId: action.treatmentId,
             };
         case "CLEAR_TREATMENT":
-            return { treatment:[], totalPrice: 0, treatmentId: null};
+            return { treatment:[], totalMedications: 0, treatmentId: null};
         default:
             return state;
     }

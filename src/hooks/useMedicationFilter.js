@@ -17,9 +17,14 @@ const useMedicationFilter = () => {
         params.set("pageNumber", currentPage - 1);
 
         const sortOrder = searchParams.get("sortby") || "asc";
+        const userParams = searchParams.get("user") || null;
         const keyword = searchParams.get("keyword") || null;
         params.set("sortBy","medicationName");
         params.set("sortOrder", sortOrder);
+
+        if (userParams) {
+            params.set("user", userParams);
+        }
 
         if (keyword) {
             params.set("keyword", keyword);
